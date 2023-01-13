@@ -75,4 +75,46 @@ Object.isSealed(juan);// Este metodo estatico del prototipo object te devuelve t
 
 Object.isFrozen(juan);// Este otro metodo devuelve un booleano verificando si la 
                     // propiedad writable esta en true, osea si se pueden editar o
-                    // no las propiedades del objeto que le pasemos por parametro.                    
+                    // no las propiedades del objeto que le pasemos por parametro.   
+                    
+                    
+//_________________________________________________//
+
+// Factory pattern y RORO
+// RORO: recibo un objeto y retorno un objeto.
+
+function requireParams(param){
+    throw new Error(param + " este parametro es obligatorio");
+}
+
+function createStudent({
+    name = requireParams("name"), // Aquí, si le asignamo como valor por defecto la
+    email = requireParams("email"),//, funcion requireParams, hacemos que ese  
+    age,                 // parametro  sea obligatorio.
+    twitwer,
+    instagram,
+    faceboock,
+    approvedCourses = [],
+    learningPaths = [],
+} = {}) { // Aqui le decimos que el objeto que viene por parametro por defecto es un
+    return {      // objeto vacío.
+        name: name,
+        age: age,
+        email: email,
+        approvedCourses: approvedCourses,
+        learningPaths: learningPaths,
+        socialMedia: {
+            twitwer: twitwer,
+            instagram: instagram,
+            faceboock: faceboock,
+        },
+        
+    };
+}
+
+const pedro = createStudent({
+     name: "Pedro",
+     age: 18,
+     email: "Pedro@pedro.com",
+     twitwer: "pedro123",
+});
