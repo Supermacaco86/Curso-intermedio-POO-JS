@@ -11,7 +11,10 @@ const obj1 = {
     c: {
         d: "d",
         e: "e",
-    }
+    },
+    editA() {
+        this.a = "AAAAAAAA"
+    },
 };
 
 const obj2 = {}
@@ -128,3 +131,48 @@ function recursividad(numerosArray){
 }                                     // llamamos de nuevo a la funcion que iteracion 
                             // a iteracion va a ir vaciando numerosArray hasta que al 
                             // al estar vacio se va a cumplir la condicion de corte.
+
+
+//____________________________________________________//
+
+// Deep copy con recursividad en Javascrpt
+// Esto nos va a permitir copiar objetos que dentro tengan objetos y aarays tambien
+// y tambien que tengan funciones!
+
+function isObjet(subjet) {
+    return typeof subjet == "object";
+};
+
+function isArray(subjet) {
+    return Array.isArray(subjet);
+};
+
+function deepCopy(subjet){
+    let copySubjet;
+
+    const subjetIsObject = isObjet(subjet);
+    const subjetIsArray = isArray(subjet);
+
+    if(subjetIsArray){
+        copySubjet = [];
+    }else if(subjetIsObject){
+        copySubjet = {};
+    }else{
+        return subjet
+    }
+
+    for(key in subjet){
+        const keyIsObjet = isObjet(subjet[key]);
+        if(keyIsObjet){
+            copySubjet[key] = deepCopy(subjet[key]);
+        }else{
+            if(subjetIsArray){
+                copySubjet.push(subjet[key]);
+            }else{
+                copySubjet[key] = subjet[key];
+            }
+        }
+    }
+
+    return copySubjet;
+};
