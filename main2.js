@@ -97,9 +97,12 @@ function createStudent({
     approvedCourses = [],
     learningPaths = [],
 } = {}) { // Aqui le decimos que el objeto que viene por parametro por defecto es un
-    return {      // objeto vacío.
-        name: name,
-        age: age,
+         // objeto vacío.
+  const private = { // encapsulamiento: Esto no se va a poder editar. Para lograr 
+    "_name": name, // esto estamos utilizando los scopes, osea esta variable al
+  };             // sacarla des scope la convertimos en inaccesible. 
+  const public = { // A partir de acá si podemo editar.
+    age: age,
         email: email,
         approvedCourses: approvedCourses,
         learningPaths: learningPaths,
@@ -108,8 +111,25 @@ function createStudent({
             instagram: instagram,
             faceboock: faceboock,
         },
-        
-    };
+        readName(){
+            return private["_name"];
+        },
+        changeName(newName){
+            private["_name"] = newName;
+        },
+  }; 
+  
+  Object.defineProperty(public, "readName", { // Acá protejemos a la funcion readName
+    writable: false,                         // de que no sea ni eliminada ni editada
+    configurable: false,
+  })
+
+  Object.defineProperty(public, "changeName", { // Acá protejemos a la funcion changeName
+    writable: false,                         // de que no sea ni eliminada ni editada
+    configurable: false,
+  })
+    
+    return public
 }
 
 const pedro = createStudent({
