@@ -1,14 +1,141 @@
 
 // Instance Of transformando nuestras fabricas de objetos a prototipos:
 
-function isArray(subjet) {
-    return Array.isArray(subjet);
-};
+// function isArray(subjet) {
+//     return Array.isArray(subjet);
+// };
 
+// function isObjet(subjet) {
+//     return typeof subjet == "object";
+// };
 
-function requireParams(param){
-    throw new Error(param + " este parametro es obligatorio");
+// function deepCopy(subjet){
+//     let copySubjet;
+
+//     const subjetIsObject = isObjet(subjet);
+//     const subjetIsArray = isArray(subjet);
+
+//     if(subjetIsArray){
+//         copySubjet = [];
+//     }else if(subjetIsObject){
+//         copySubjet = {};
+//     }else{
+//         return subjet
+//     }
+
+//     for(key in subjet){
+//         const keyIsObjet = isObjet(subjet[key]);
+//         if(keyIsObjet){
+//             copySubjet[key] = deepCopy(subjet[key]);
+//         }else{
+//             if(subjetIsArray){
+//                 copySubjet.push(subjet[key]);
+//             }else{
+//                 copySubjet[key] = subjet[key];
+//             }
+//         }
+//     }
+
+//     return copySubjet;
+// };
+
+// function requireParams(param){
+//     throw new Error(param + " este parametro es obligatorio");
+// }
+
+// Acá creamos nuestras funciones helpers como funciones estaticas de la clase
+// SuperObject, entonces para usar estas funciones debemos llamarlas asi:
+// SuperObject.requireParams()
+// SpuerObject.isObjet()
+// SpuerObject.isArray()
+// SpuerObject.deepCopy()
+class SuperObjectClase {
+    static requireParams(param){
+        throw new Error(param + " este parametro es obligatorio");
+    };
+    static isObjet(subjet) {
+        return typeof subjet == "object";
+    };
+    static isArray(subjet) {
+        return Array.isArray(subjet);
+    };
+    static deepCopy(subjet){
+        let copySubjet;
+    
+        const subjetIsObject = isObjet(subjet);
+        const subjetIsArray = isArray(subjet);
+    
+        if(subjetIsArray){
+            copySubjet = [];
+        }else if(subjetIsObject){
+            copySubjet = {};
+        }else{
+            return subjet
+        }
+    
+        for(key in subjet){
+            const keyIsObjet = isObjet(subjet[key]);
+            if(keyIsObjet){
+                copySubjet[key] = deepCopy(subjet[key]);
+            }else{
+                if(subjetIsArray){
+                    copySubjet.push(subjet[key]);
+                }else{
+                    copySubjet[key] = subjet[key];
+                }
+            }
+        }
+    
+        return copySubjet;
+    };
 }
+
+// Acá creamos metodos estaticos pero desde un prototipo:
+
+function SuperObjectProto(){};
+SuperObject.deepCopy = function(subjet){
+        let copySubjet;
+    
+        const subjetIsObject = isObjet(subjet);
+        const subjetIsArray = isArray(subjet);
+    
+        if(subjetIsArray){
+            copySubjet = [];
+        }else if(subjetIsObject){
+            copySubjet = {};
+        }else{
+            return subjet
+        }
+    
+        for(key in subjet){
+            const keyIsObjet = isObjet(subjet[key]);
+            if(keyIsObjet){
+                copySubjet[key] = deepCopy(subjet[key]);
+            }else{
+                if(subjetIsArray){
+                    copySubjet.push(subjet[key]);
+                }else{
+                    copySubjet[key] = subjet[key];
+                }
+            }
+        }
+    
+        return copySubjet;
+    };
+
+SuperObject.isArray = function (subjet) {
+        return Array.isArray(subjet);
+    };
+
+SuperObject.isObjet = function (subjet) {
+        return typeof subjet == "object";
+    };
+
+SuperObject.requireParams = function (param){
+        throw new Error(param + " este parametro es obligatorio");
+    }
+
+
 
 function LearningPath({
     name = requireParams("name"),
